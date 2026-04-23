@@ -1,0 +1,28 @@
+<template>
+
+  <lightning-card title="Related Cases" custom-icon="custom:icon13">
+      <div class="slds slds-p-horizontal--medium">
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered" border="1" cellspacing="0" cellpadding="0"  style="border-collapse:collapse;">
+             <thead>
+                 <tr>
+                     <th>Case Number</th>
+                     <th>Subject</th>
+                     <th>Status</th>
+                     <th>Account Name</th>
+                 </tr>
+             </thead>
+             <tbody>
+                 <template for:each={records} for:item="caseItem">
+                     <tr key={caseItem.Id}>
+                         <td>{caseItem.CaseNumber}</td>
+                         <td>{caseItem.Subject}</td>
+                         <td>{caseItem.Status}</td>
+                         <td>{caseItem.Account.Name}</td>
+                     </tr>
+                 </template>
+             </tbody>
+         </table>
+         
+      </div>
+  </lightning-card>
+</template>
