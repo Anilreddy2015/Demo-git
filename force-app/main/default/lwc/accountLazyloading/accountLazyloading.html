@@ -1,0 +1,106 @@
+<template>
+    <lightning-card title="Account Records with Infinite Scroll" icon-name="standard:account">
+        <div class="slds-m-around_medium">
+            <!-- Display info -->
+            <div class="slds-m-bottom_small">
+                <div class="slds-text-body_regular slds-text-color_weak">
+                    {displayInfo}
+                </div>
+            </div>
+
+            <!-- Initial loading spinner -->
+            <template if:true={showInitialLoading}>
+                <div class="slds-text-align_center slds-m-vertical_large">
+                    <lightning-spinner alternative-text="Loading accounts..." size="medium"></lightning-spinner>
+                    <p class="slds-m-top_small">Loading accounts...</p>
+                </div>
+            </template>
+
+            <!-- Scrollable container with records -->
+            <template if:true={hasRecords}>
+                <div class="scroll-container" onscroll={handleScroll}>
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th scope="col">
+                                    <div class="slds-truncate" title="Account Name">Account Name</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title="Industry">Industry</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title="Phone">Phone</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title="Type">Type</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={accounts} for:item="account">
+                                <tr key={account.Id} class="slds-hint-parent">
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title={account.Name}>
+                                            <a href={account.Id} data-id={account.Id}>
+                                                {account.Name}
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td data-label="Industry">
+                                        <div class="slds-truncate" title={account.Industry}>
+                                            {account.Industry}
+                                        </div>
+                                    </td>
+                                    <td data-label="Phone">
+                                        <div class="slds-truncate" title={account.Phone}>
+                                            {account.Phone}
+                                        </div>
+                                    </td>
+                                    <td data-label="Type">
+                                        <div class="slds-truncate" title={account.Type}>
+                                            {account.Type}
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+
+                    <!-- Loading more spinner -->
+                    <template if:true={showLoadingSpinner}>
+                        <div class="slds-text-align_center slds-p-vertical_medium">
+                            <lightning-spinner alternative-text="Loading more..." size="small"></lightning-spinner>
+                            <p class="slds-m-top_small">Loading more records...</p>
+                        </div>
+                    </template>
+
+                    <!-- End of records message -->
+                    <template if:false={hasMoreRecords}>
+                        <template if:false={showLoadingSpinner}>
+                            <div class="slds-text-align_center slds-p-vertical_medium slds-text-color_weak">
+                                <p>• End of records •</p>
+                            </div>
+                        </template>
+                    </template>
+                </div>
+            </template>
+
+            <!-- No records message -->
+            <template if:false={hasRecords}>
+                <template if:false={showInitialLoading}>
+                    <div class="slds-text-align_center slds-m-vertical_large">
+                        <lightning-icon icon-name="utility:info" size="small"></lightning-icon>
+                        <p class="slds-m-top_small">No Account records found.</p>
+                    </div>
+                </template>
+            </template>
+
+            <!-- Error message -->
+            <template if:true={error}>
+                <div class="slds-text-color_error slds-m-top_medium">
+                    <p>Error loading accounts: {error.body.message}</p>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

@@ -1,0 +1,119 @@
+<template>
+    <lightning-card title="Account Records with Pagination" icon-name="standard:account">
+        <!-- Display info and pagination controls -->
+        <div class="slds-m-around_medium">
+            <template if:true={hasRecords}>
+                <div class="slds-grid slds-grid_align-spread slds-m-bottom_small">
+                    <div class="slds-text-body_regular">
+                        {displayInfo}
+                    </div>
+                    <div class="slds-text-body_regular">
+                        {pageInfo}
+                    </div>
+                </div>
+
+                <!-- Account records table -->
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th scope="col">
+                                <div class="slds-truncate" title="Account Name">Account Name</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Industry">Industry</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Phone">Phone</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Type">Type</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={accounts} for:item="account">
+                            <tr key={account.Id} class="slds-hint-parent">
+                                <td data-label="Account Name">
+                                    <div class="slds-truncate" title={account.Name}>
+                                        <a href={account.Id} data-id={account.Id}>
+                                            {account.Name}
+                                        </a>
+                                    </div>
+                                </td>
+                                <td data-label="Industry">
+                                    <div class="slds-truncate" title={account.Industry}>
+                                        {account.Industry}
+                                    </div>
+                                </td>
+                                <td data-label="Phone">
+                                    <div class="slds-truncate" title={account.Phone}>
+                                        {account.Phone}
+                                    </div>
+                                </td>
+                                <td data-label="Type">
+                                    <div class="slds-truncate" title={account.Type}>
+                                        {account.Type}
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+
+                <!-- Pagination buttons -->
+                <div class="slds-m-top_medium">
+                    <lightning-button-group>
+                        <lightning-button 
+                            label="First" 
+                            icon-name="utility:chevronleft"
+                            onclick={handleFirst}
+                            disabled={isFirstPage}>
+                        </lightning-button>
+                        <lightning-button 
+                            label="Previous" 
+                            icon-name="utility:back"
+                            onclick={handlePrevious}
+                            disabled={isFirstPage}>
+                        </lightning-button>
+                        <lightning-button 
+                            label="Next" 
+                            icon-name="utility:forward"
+                            icon-position="right"
+                            onclick={handleNext}
+                            disabled={isLastPage}>
+                        </lightning-button>
+                        <lightning-button 
+                            label="Last" 
+                            icon-name="utility:chevronright"
+                            icon-position="right"
+                            onclick={handleLast}
+                            disabled={isLastPage}>
+                        </lightning-button>
+                    </lightning-button-group>
+                </div>
+            </template>
+
+            <!-- No records message -->
+            <template if:false={hasRecords}>
+                <div class="slds-text-align_center slds-m-vertical_large">
+                    <lightning-icon icon-name="utility:info" size="small"></lightning-icon>
+                    <p class="slds-m-top_small">No Account records found.</p>
+                </div>
+            </template>
+
+            <!-- Loading spinner -->
+            <template if:true={isLoading}>
+                <div class="slds-text-align_center slds-m-vertical_large">
+                    <lightning-spinner alternative-text="Loading accounts..." size="medium"></lightning-spinner>
+                </div>
+            </template>
+
+            <!-- Error message -->
+            <template if:true={error}>
+                <div class="slds-text-color_error slds-m-top_medium">
+                    <p>Error loading accounts: {error.body.message}</p>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

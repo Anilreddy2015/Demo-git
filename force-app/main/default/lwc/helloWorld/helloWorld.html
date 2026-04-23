@@ -1,0 +1,30 @@
+<template>
+    <lightning-card title="Hello World LWC" icon-name="custom:custom14">
+        <div class="slds-m-around_medium">
+            <!-- Display greeting -->
+            <div class="slds-text-heading_medium slds-m-bottom_medium">
+                {greeting}!
+            </div>
+
+            <!-- Display current date -->
+            <div class="slds-text-body_regular slds-m-bottom_medium">
+                Today's date: {currentDate}
+            </div>
+
+            <!-- Input to change greeting -->
+            <lightning-input
+                label="Change Greeting"
+                value={greeting}
+                onchange={handleGreetingChange}
+                placeholder="Enter your greeting">
+            </lightning-input>
+
+            <!-- Success message -->
+            <div class="slds-m-top_medium">
+                <div class="success-message">
+                    ✅ Your first Lightning Web Component is working!
+                </div>
+            </div>
+        </div>
+    </lightning-card>
+</template>
